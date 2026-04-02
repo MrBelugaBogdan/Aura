@@ -14,3 +14,19 @@ void clear_screen() {
         print_char(' ', i / 80, i % 80, 0x07);
     }
 }
+int cursor_x = 0;
+int cursor_y = 1; // Починаємо з другого рядка, бо перший — заголовок
+
+void put_char(char c) {
+    if (c == '\n') { // Перехід на новий рядок
+        cursor_x = 0;
+        cursor_y++;
+    } else {
+        print_char(c, cursor_y, cursor_x, 0x0F); // Білий текст
+        cursor_x++;
+        if (cursor_x >= 80) { // Якщо рядок закінчився
+            cursor_x = 0;
+            cursor_y++;
+        }
+    }
+}
