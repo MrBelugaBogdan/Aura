@@ -2,15 +2,11 @@
 
 void kmain() {
     clear_screen();
-    
-    // Гарний заголовок зверху
-    print_string("--- AuraOS Kernel Loaded Successfully ---", 0, 20, 0x0A);
-    
-    // Запускаємо командний рядок
+    print_string("--- AuraOS Core Initialized ---", 0, 25, 0x0B);
+    cursor_y = 1;
     start_shell();
     
     while(1) {
         check_keyboard();
-        // Тут ми пізніше зробимо так, щоб символи з клавіатури з'являлися в shell
     }
 }
