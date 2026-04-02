@@ -15,7 +15,7 @@ void check_keyboard() {
         // Якщо скан-код менше 128 і це не "відпускання" клавіші
         if (scancode < 128 && keyboard_map[scancode] != 0) {
             char c = keyboard_map[scancode];
-            put_char(c); // Відправляємо букву на екран!
+            shell_input(c);
         }
     }
 }
