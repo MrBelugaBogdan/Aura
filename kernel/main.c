@@ -3,13 +3,14 @@
 void kmain() {
     clear_screen();
     
-    // Виводимо назву системи
-    print_char('A', 0, 0, 0x0B);
-    print_char('u', 0, 1, 0x0B);
-    print_char('r', 0, 2, 0x0B);
-    print_char('a', 0, 3, 0x0B);
+    // Гарний заголовок зверху
+    print_string("--- AuraOS Kernel Loaded Successfully ---", 0, 20, 0x0A);
+    
+    // Запускаємо командний рядок
+    start_shell();
     
     while(1) {
-        check_keyboard(); // Система постійно стежить за клавіатурою
+        check_keyboard();
+        // Тут ми пізніше зробимо так, щоб символи з клавіатури з'являлися в shell
     }
 }
