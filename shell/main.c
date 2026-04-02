@@ -3,36 +3,52 @@
 char command_buffer[80];
 int buffer_ptr = 0;
 
+void start_shell() {
+    print_string("\nAuraOS > ", cursor_y, 0, 0x0E);
+    cursor_x = 9;
+}
+
 void execute_command(char* cmd) {
+    cursor_y++;
+    cursor_x = 0;
+
     if (compare_strings(cmd, "help")) {
-        print_string("\nCommands: help, cls, ver, sysinfo", 0, 0, 0x07);
+        print_string("Commands: help, cls, ver, login, secret, logout", cursor_y++, 0, 0x07);
     } 
     else if (compare_strings(cmd, "cls")) {
         clear_screen();
-        cursor_y = 0; // Повертаємо курсор вгору
     } 
     else if (compare_strings(cmd, "ver")) {
-        print_string("\nAuraOS Kernel v0.1.0 (Stable Edition)", 0, 0, 0x03);
+        print_string("AuraOS v0.1.0 (Kernel x86)", cursor_y++, 0, 0x03);
     }
-    else if (compare_strings(cmd, "sysinfo")) {
-        print_string("\nCPU: x86 Mode | RAM: 640KB Base | Arch: Monolithic", 0, 0, 0x0B);
+    else if (compare_strings(cmd, "login")) {
+        access_level = 1;
+        print_string("Logged in as Root.", cursor_y++, 0, 0x0A);
+    }
+    else if (compare_strings(cmd, "secret")) {
+        read_secret();
+        cursor_y++;
+    }
+    else if (compare_strings(cmd, "logout")) {
+        access_level = 0;
+        print_string("Logged out.", cursor_y++, 0, 0x07);
     }
     else {
-        print_string("\nUnknown command. Type 'help'.", 0, 0, 0x0C); // Червона помилка
+        print_string("Unknown command.", cursor_y++, 0, 0x0C);
     }
     
-    print_string("\nAuraOS > ", 0, 0, 0x0E);
+    start_shell();
 }
 
-// Додаємо символ у буфер
 void shell_input(char c) {
     if (c == '\n') {
-        command_buffer[buffer_ptr] = '\0'; // Закриваємо рядок
+        command_buffer[buffer_ptr] = '\0';
         execute_command(command_buffer);
-        buffer_ptr = 0; // Очищуємо буфер для нової команди
-    } else if (c == '\b' && buffer_ptr > 0) { // Backspace
+        buffer_ptr = 0;
+    } else if (c == '\b' && buffer_ptr > 0) {
         buffer_ptr--;
-    } else {
+        put_char('\b');
+    } else if (buffer_ptr < 79) {
         command_buffer[buffer_ptr++] = c;
         put_char(c);
     }
