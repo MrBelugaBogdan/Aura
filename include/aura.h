@@ -9,3 +9,4 @@ void check_keyboard();
 #endif
 void print_string(char* str, int row, int col, char color);
 void start_shell();
+void put_char(char c);
